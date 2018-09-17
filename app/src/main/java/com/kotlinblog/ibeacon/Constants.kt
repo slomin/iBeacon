@@ -10,5 +10,8 @@ class Constants {
         const val PAPER_KEY_EVENTS = "events"
 
         const val TAG = "QA_LOG"
+
+        const val DEFAULT_UUID_A = "a0d756db-06cd-4da1-b925-7e57831ccf09"
+        const val DEFAULT_UUID_B = "72b03d75-999b-4d2e-a632-1355b314ed78"
     }
 }

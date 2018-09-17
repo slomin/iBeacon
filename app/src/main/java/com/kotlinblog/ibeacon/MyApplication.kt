@@ -34,8 +34,8 @@ class MyApplication : Application(), BootstrapNotifier {
                 setBeaconLayout(Constants.IBEACON_LAYOUT_BY_GEOFF))
 
 
-        val storedUuidA = Paper.book().read(Constants.PAPER_KEY_UUID_A, "");
-        val storedUuidB = Paper.book().read(Constants.PAPER_KEY_UUID_B, "");
+        val storedUuidA = Paper.book().read(Constants.PAPER_KEY_UUID_A, Constants.DEFAULT_UUID_A)
+        val storedUuidB = Paper.book().read(Constants.PAPER_KEY_UUID_B, Constants.DEFAULT_UUID_B)
 
         if (storedUuidA.isEmpty() && storedUuidB.isEmpty()) {
             Toast.makeText(this, "Please add UUIDs and kill the app before using it", Toast.LENGTH_LONG).show()
@@ -72,6 +72,7 @@ class MyApplication : Application(), BootstrapNotifier {
 
     override fun didDetermineStateForRegion(p0: Int, region: Region?) {
         Log.d(Constants.TAG, "didDetermineStateForRegion ${region.toString()}")
+        storeDetectedEvent(region, "determinedState: ")
     }
 
     override fun didExitRegion(region: Region?) {
@@ -80,14 +81,14 @@ class MyApplication : Application(), BootstrapNotifier {
 
     }
 
-    private fun storeDetectedEvent(region: Region?, enteredOrExit: String) {
+    private fun storeDetectedEvent(region: Region?, reason: String) {
         if (region != null) {
             var storedEvents1: String = Paper.book().read(Constants.PAPER_KEY_EVENTS, "")
             val c = Calendar.getInstance()
             val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss a")
             val time = simpleDateFormat.format(c.time)
             Log.d(Constants.TAG, "formatted date: $time")
-            val eventToAdd = enteredOrExit + region.uniqueId + "\n detected at: " + time + "\n\n"
+            val eventToAdd = reason + region.uniqueId + "\n detected at: " + time + "\n\n"
             storedEvents1 += eventToAdd
 
             Paper.book().write(Constants.PAPER_KEY_EVENTS, storedEvents1)

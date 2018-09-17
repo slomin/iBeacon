@@ -79,8 +79,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCurrentUuidView() {
-        val uuidA: String = Paper.book().read(Constants.PAPER_KEY_UUID_A, "UUID A is empty")
-        val uuidB: String = Paper.book().read(Constants.PAPER_KEY_UUID_B, "UUID B is empty")
+        val uuidA: String = Paper.book().read(Constants.PAPER_KEY_UUID_A, Constants.DEFAULT_UUID_A)
+        val uuidB: String = Paper.book().read(Constants.PAPER_KEY_UUID_B, Constants.DEFAULT_UUID_B)
         tvUuidA.text = uuidA
         tvUuidB.text = uuidB
     }
