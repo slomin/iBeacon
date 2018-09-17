@@ -7,6 +7,7 @@ import android.widget.Toast
 import io.paperdb.Paper
 import org.altbeacon.beacon.BeaconParser
 import org.altbeacon.beacon.Identifier
+import org.altbeacon.beacon.MonitorNotifier
 import org.altbeacon.beacon.Region
 import org.altbeacon.beacon.startup.BootstrapNotifier
 import org.altbeacon.beacon.startup.RegionBootstrap
@@ -71,8 +72,14 @@ class MyApplication : Application(), BootstrapNotifier {
     }
 
     override fun didDetermineStateForRegion(p0: Int, region: Region?) {
-        Log.d(Constants.TAG, "didDetermineStateForRegion ${region.toString()}")
-        storeDetectedEvent(region, "determinedState: ")
+        if (p0 == MonitorNotifier.INSIDE) {
+            Log.d(Constants.TAG, "didDetermineState: ${region.toString()} INSIDE: ")
+            storeDetectedEvent(region, "determinedState: INSIDE")
+        } else if (p0 == MonitorNotifier.OUTSIDE) {
+            Log.d(Constants.TAG, "didDetermineStateForRegion ${region.toString()} OUTSIDE: ")
+            storeDetectedEvent(region, "determinedState: OUTSIDE")
+        }
+
     }
 
     override fun didExitRegion(region: Region?) {
